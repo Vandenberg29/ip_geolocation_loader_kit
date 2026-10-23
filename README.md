@@ -38,3 +38,10 @@ The trade-off: the index lives in process memory and is rebuilt by re-reading th
 - `CountryLookup` — the index type, usable on its own with an iterable of `(start_int, end_int, country)` tuples.
 - `GeolocationParseError` — raised during loading for malformed CSV rows.
 - `GeolocationLookupError` — raised by `lookup` for addresses that are not valid IPv4.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
